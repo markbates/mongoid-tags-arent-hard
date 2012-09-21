@@ -4,7 +4,7 @@ module Mongoid
 
       attr_accessor :tag_list
       attr_accessor :options
-      delegate :join, :map, :each, :inspect, :==, :===, :eql?, :__bson_dump__, :delete, :&, :to_ary, :to_json, to: :tag_list
+      delegate :join, :map, :each, :inspect, :==, :===, :eql?, :__bson_dump__, :delete, :&, :to_ary, :to_json, :as_json, to: :tag_list
 
       def initialize(*tag_list, options)
         self.options = {separator: Mongoid::TagsArentHard.config.separator}.merge(options)

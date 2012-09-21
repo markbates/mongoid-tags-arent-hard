@@ -71,4 +71,12 @@ describe Mongoid::TagsArentHard::Tags do
 
   end
 
+  describe 'as_json' do
+    
+    it "returns the underlying array" do
+      tags.as_json.should eql(["foo", "bar", "baz"])
+    end
+
+  end
+
 end
