@@ -45,9 +45,9 @@ foo.tags #=> ["a", "b", "c"]
 foo.colors #=> ["red", "blue"]
 
 # append with either a string or an array:
-foo.tags << "d"
+foo.tags &lt;&lte; "d"
 foo.tags #=> ["a", "b", "c", "d"]
-foo.colors << ["green", "yellow"]
+foo.colors &lt;&lte; ["green", "yellow"]
 foo.colors #=> ["red", "blue", "green", "yellow"]
 
 # set with either a string or an array:
