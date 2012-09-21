@@ -63,4 +63,12 @@ describe Mongoid::TagsArentHard::Tags do
 
   end
 
+  describe 'to_json' do
+    
+    it "returns an Array style json" do
+      tags.to_json.should eql("[\"foo\",\"bar\",\"baz\"]")
+    end
+
+  end
+
 end
