@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Mongoid::Tags::Arent::Hard::VERSION
   gem.authors       = ["Mark Bates"]
   gem.email         = ["mark@markbates.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{A tagging gem for Mongoid 3 that doesn't actually suck.}
+  gem.summary       = %q{A tagging gem for Mongoid 3 that doesn't actually suck.}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)

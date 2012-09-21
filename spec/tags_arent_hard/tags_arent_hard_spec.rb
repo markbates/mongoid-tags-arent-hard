@@ -21,8 +21,13 @@ describe Mongoid::TagsArentHard do
         foo.send(_name).should eql([])
       end
 
-      it "defines a setter for '#{_name}'" do
+      it "defines a setter for '#{_name}' (string)" do
         foo.send("#{_name}=", "foo #{_separator} bar")
+        foo.send(_name).should eql(["foo","bar"])
+      end
+
+      it "defines a setter for '#{_name}' (array)" do
+        foo.send("#{_name}=", ["foo", "bar"])
         foo.send(_name).should eql(["foo","bar"])
       end
       

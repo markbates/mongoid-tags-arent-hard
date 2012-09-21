@@ -12,22 +12,44 @@ describe Mongoid::TagsArentHard::Tags do
     
     it "takes an array of tags" do
       tags = Mongoid::TagsArentHard::Tags.new(["foo", "bar"], {})
-      tags.tag_list.should eql(["foo", "bar"])
+      tags.should eql(["foo", "bar"])
     end
 
     it "takes a splatted list" do
       tags = Mongoid::TagsArentHard::Tags.new("foo", "bar", {})
-      tags.tag_list.should eql(["foo", "bar"])
+      tags.should eql(["foo", "bar"])
     end
 
     it "takes a string" do
       tags = Mongoid::TagsArentHard::Tags.new("foo,bar", {})
-      tags.tag_list.should eql(["foo", "bar"])
+      tags.should eql(["foo", "bar"])
     end
 
     it "takes a string with a different separator" do
       tags = Mongoid::TagsArentHard::Tags.new("foo bar", separator: " ")
-      tags.tag_list.should eql(["foo", "bar"])
+      tags.should eql(["foo", "bar"])
+    end
+
+  end
+
+  describe '<<' do
+    
+    it "takes a string" do
+      tags << "fubar"
+      tags.should eql(["foo", "bar", "baz", "fubar"])
+
+      tags << "a,b"
+      tags.should eql(["foo", "bar", "baz", "fubar", "a", "b"])
+    end
+
+    it "takes an array" do
+      tags << ["a", "b"]
+      tags.should eql(["foo", "bar", "baz", "a", "b"])
+    end
+
+    it "should not allow duplicates" do
+      tags << "foo"
+      tags.should eql(["foo", "bar", "baz"])
     end
 
   end

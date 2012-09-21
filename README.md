@@ -1,6 +1,8 @@
-# Mongoid::Tags::Arent::Hard
+# Mongoid::TagsArentHard
 
-TODO: Write a gem description
+A tagging gem for Mongoid 3 that doesn't actually suck.
+
+For some reason all of the tagging gems for Mongoid suck. Not sure why, it's really not that hard a problem to solve. One of the biggest complaints I have is that you can't have a model that has two types of "tags". The other problem I have with the other gems is that I want to be able to set my tags equal to a string and have it become an Array, and vice versa. This gem solves both of those problems.
 
 ## Installation
 
@@ -18,12 +20,72 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To add tags to a model you need to first include the <code>Mongoid::TagsArentHard</code> module and then define what you want the field to be called using the <code>taggable_with</code> method.
+
+<pre><code>
+class Foo
+  include Mongoid::Document
+  include Mongoid::TagsArentHard
+
+  taggable_with :tags
+  taggable_with :colors, separator: ";"
+end
+</code></pre>
+
+Now we have two different types of "tags"; the first being called <code>tags</code> and the second being called <code>colors</code>. We have also told the <code>colors</code> to use <code>";"</code> as its separator.
+
+Now we can do fun things like this:
+
+<pre><code>
+# set with either a string or an array:
+foo = Foo.new(tags: "a,b,c", colors: ["red", "blue"])
+
+# retrieve the list:
+foo.tags #=> ["a", "b", "c"]
+foo.colors #=> ["red", "blue"]
+
+# append with either a string or an array:
+foo.tags << "d"
+foo.tags #=> ["a", "b", "c", "d"]
+foo.colors << ["green", "yellow"]
+foo.colors #=> ["red", "blue", "green", "yellow"]
+
+# set with either a string or an array:
+foo.tags = ["x", "y", "z"]
+foo.tags #=> ["x", "y", "z"]
+foo.colors = "black;brown"
+foo.colors #=> ["black", "brown"]
+</code></pre>
+
+### Searching
+
+There are a few scopes included that make it easy to find objects that have the tags you are looking for. These methods are generated using the name of the field you designed, so in our previous example we would have the following methods available to us:
+
+<pre><code>
+# Find objects with any of the values:
+Foo.with_any_tags("a")
+Foo.with_any_tags(["a", "b"])
+Foo.with_any_tags("a, b")
+Foo.with_any_colors("a")
+Foo.with_any_colors(["a", "b"])
+Foo.with_any_colors("a, b")
+
+# Find objects with all of these values:
+Foo.with_all_tags("a")
+Foo.with_all_tags(["a", "b"])
+Foo.with_all_tags("a, b")
+Foo.with_all_colors("a")
+Foo.with_all_colors(["a", "b"])
+Foo.with_all_colors("a, b")
+</code></pre>
+
+Again, notice that you can use either a string, an array, or a splatted list as values to these scopes.
 
 ## Contributing
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+3. Write your tests
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create new Pull Request
