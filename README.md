@@ -45,8 +45,8 @@ foo.tags #=> ["a", "b", "c"]
 foo.colors #=> ["red", "blue"]
 
 # append with either a string or an array:
-foo.tags &lt;&lt; "d"
-foo.tags #=> ["a", "b", "c", "d"]
+foo.tags &lt;&lt; "d,e"
+foo.tags #=> ["a", "b", "c", "d", "e"]
 foo.colors &lt;&lt; ["green", "yellow"]
 foo.colors #=> ["red", "blue", "green", "yellow"]
 
