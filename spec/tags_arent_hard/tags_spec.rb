@@ -54,6 +54,32 @@ describe Mongoid::TagsArentHard::Tags do
 
   end
 
+  describe '+' do
+    
+    it "adds the string to the list" do
+      tags.should eql(["foo", "bar", "baz"])
+      ntags = tags + "a,b"
+      ntags.should eql(["foo", "bar", "baz", "a", "b"])
+      puts "ntags.class.name: #{ntags.class.name}"
+      ntags.should be_kind_of(Mongoid::TagsArentHard::Tags)
+    end
+
+    it "adds the array to the list" do
+      tags.should eql(["foo", "bar", "baz"])
+      ntags = tags + ["a", "b"]
+      ntags.should eql(["foo", "bar", "baz", "a", "b"])
+      ntags.should be_kind_of(Mongoid::TagsArentHard::Tags)
+    end
+
+    it "adds another Tag object" do
+      tags.should eql(["foo", "bar", "baz"])
+      ntags = tags + Mongoid::TagsArentHard::Tags.new(["a", "b"], {})
+      ntags.should eql(["foo", "bar", "baz", "a", "b"])
+      ntags.should be_kind_of(Mongoid::TagsArentHard::Tags)
+    end
+
+  end
+
   describe 'to_s, to_str' do
     
     it "returns a comma separated list of tags" do

@@ -13,14 +13,19 @@ module Mongoid
       end
 
       def normalize(*tag_list)
-        tag_list.flatten.map {|s| s.split(self.options[:separator]).map {|x| x.strip}}.flatten
+        x = tag_list.flatten.map {|s| s.split(self.options[:separator]).map {|x| x.strip}}.flatten
+        return x
       end
 
       def <<(*tag_list)
         self.tag_list << self.normalize(*tag_list)
         self.tag_list.flatten!
         self.tag_list.uniq!
-        return self.tag_list
+        return self
+      end
+
+      def +(*tag_list)
+        self.<<(*tag_list)
       end
 
       def to_s

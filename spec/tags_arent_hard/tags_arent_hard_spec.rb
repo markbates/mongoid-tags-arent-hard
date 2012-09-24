@@ -44,6 +44,40 @@ describe Mongoid::TagsArentHard do
 
     end
 
+    describe '+=' do
+      
+      it "adds and replaces using a string" do
+        foo.send("#{_name}=", ["foo", "bar"])
+        foo.send(_name).should eql(["foo","bar"])
+
+        fooa = foo.send(_name)
+        fooa += "a#{_separator}b"
+
+        fooa.should eql(["foo","bar", "a", "b"])
+      end
+
+      it "adds and replaces using an array" do
+        foo.send("#{_name}=", ["foo", "bar"])
+        foo.send(_name).should eql(["foo","bar"])
+
+        fooa = foo.send(_name)
+        fooa += ["a", "b"]
+
+        fooa.should eql(["foo","bar", "a", "b"])
+      end
+
+      it "adds and replaces using a Tags object" do
+        foo.send("#{_name}=", ["foo", "bar"])
+        foo.send(_name).should eql(["foo","bar"])
+
+        fooa = foo.send(_name)
+        fooa += Mongoid::TagsArentHard::Tags.new(["a", "b"], {})
+
+        fooa.should eql(["foo","bar", "a", "b"])
+      end
+
+    end
+
     context 'class scopes' do
 
       before(:each) do
