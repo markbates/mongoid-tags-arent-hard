@@ -78,6 +78,19 @@ describe Mongoid::TagsArentHard do
 
     end
 
+    describe 'changes' do
+      
+      it "tracks changes correctly" do
+        foo.save!
+        foo.reload
+        foo.send("#{_name}=", [])
+        foo.send(_name) << ["foo", "bar"]
+        changes = foo.changes
+        changes[_name.to_s].should eql([[], ["foo", "bar"]])
+      end
+
+    end
+
     context 'class scopes' do
 
       before(:each) do

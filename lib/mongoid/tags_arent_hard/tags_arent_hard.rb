@@ -8,12 +8,13 @@ module Mongoid
     module ClassMethods
       
       def taggable_with(name, options = {})
-        options = {separator: Mongoid::TagsArentHard.config.separator}.merge(options)
+        options = {separator: Mongoid::TagsArentHard.config.separator, _name: name}.merge(options)
         self.field(name, type: Array, default: [])
         self.class_eval do
           define_method(name) do
             val = super()
             unless val.is_a?(Mongoid::TagsArentHard::Tags)
+              options.merge!(owner: self)
               val = Mongoid::TagsArentHard::Tags.new(val, options)
               self.send("#{name}=", val)
             end
@@ -21,6 +22,7 @@ module Mongoid
           end
           define_method("#{name}=") do |val|
             unless val.is_a?(Mongoid::TagsArentHard::Tags)
+              options.merge!(owner: self)
               val = Mongoid::TagsArentHard::Tags.new(val, options)
             end
             super(val)

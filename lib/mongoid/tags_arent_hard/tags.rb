@@ -21,6 +21,9 @@ module Mongoid
         self.tag_list << self.normalize(*tag_list)
         self.tag_list.flatten!
         self.tag_list.uniq!
+        if self.options[:owner]
+          self.options[:owner].send("#{self.options[:_name]}_will_change!")
+        end
         return self
       end
 
