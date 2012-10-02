@@ -77,6 +77,10 @@ Foo.with_all_tags("a, b")
 Foo.with_all_colors("a")
 Foo.with_all_colors(["a", "b"])
 Foo.with_all_colors("a, b")
+
+# Retrieve a distinct array of all tags
+Foo.all_tags
+Foo.where(name: 'test).all_tags
 </code></pre>
 
 Again, notice that you can use either a string, an array, or a splatted list as values to these scopes.
