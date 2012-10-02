@@ -33,6 +33,11 @@ module Mongoid
           self.send("with_any_#{name}", *val)
         end
 
+        self.class.send(:define_method, "all_#{name}") do
+          queryable.distinct(name.to_s)
+        end
+
+
         self.class.send(:define_method, "with_any_#{name}") do |*val|
           any_in(name => Mongoid::TagsArentHard::Tags.new(*val, {}).tag_list)
         end
