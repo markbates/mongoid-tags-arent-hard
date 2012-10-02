@@ -20,9 +20,9 @@ Or install it yourself as:
 
 ## Usage
 
-To add tags to a model you need to first include the <code>Mongoid::TagsArentHard</code> module and then define what you want the field to be called using the <code>taggable_with</code> method.
+To add tags to a model you need to first include the `Mongoid::TagsArentHard` module and then define what you want the field to be called using the `taggable_with` method.
 
-<pre><code>
+```ruby
 class Foo
   include Mongoid::Document
   include Mongoid::TagsArentHard
@@ -30,13 +30,13 @@ class Foo
   taggable_with :tags
   taggable_with :colors, separator: ";"
 end
-</code></pre>
+```
 
-Now we have two different types of "tags"; the first being called <code>tags</code> and the second being called <code>colors</code>. We have also told the <code>colors</code> to use <code>";"</code> as its separator.
+Now we have two different types of "tags"; the first being called `tags` and the second being called `colors`. We have also told the `colors` to use `";"` as its separator.
 
 Now we can do fun things like this:
 
-<pre><code>
+```ruby
 # set with either a string or an array:
 foo = Foo.new(tags: "a,b,c", colors: ["red", "blue"])
 
@@ -45,9 +45,9 @@ foo.tags #=> ["a", "b", "c"]
 foo.colors #=> ["red", "blue"]
 
 # append with either a string or an array:
-foo.tags &lt;&lt; "d,e"
+foo.tags << "d,e"
 foo.tags #=> ["a", "b", "c", "d", "e"]
-foo.colors &lt;&lt; ["green", "yellow"]
+foo.colors << ["green", "yellow"]
 foo.colors #=> ["red", "blue", "green", "yellow"]
 
 # set with either a string or an array:
@@ -55,13 +55,13 @@ foo.tags = ["x", "y", "z"]
 foo.tags #=> ["x", "y", "z"]
 foo.colors = "black;brown"
 foo.colors #=> ["black", "brown"]
-</code></pre>
+```
 
 ### Searching
 
 There are a few scopes included that make it easy to find objects that have the tags you are looking for. These methods are generated using the name of the field you designed, so in our previous example we would have the following methods available to us:
 
-<pre><code>
+```ruby
 # Find objects with any of the values:
 Foo.with_any_tags("a")
 Foo.with_any_tags(["a", "b"])
@@ -80,8 +80,8 @@ Foo.with_all_colors("a, b")
 
 # Retrieve a distinct array of all tags
 Foo.all_tags
-Foo.where(name: 'test).all_tags
-</code></pre>
+Foo.where(name: 'test').all_tags
+```
 
 Again, notice that you can use either a string, an array, or a splatted list as values to these scopes.
 
@@ -93,3 +93,8 @@ Again, notice that you can use either a string, an array, or a splatted list as 
 4. Commit your changes (`git commit -am 'Add some feature'`)
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create new Pull Request
+
+## Contributers
+
+* Mark Bates
+* Carsten Block
