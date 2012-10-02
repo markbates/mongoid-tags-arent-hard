@@ -4,6 +4,8 @@ class Foo
   include Mongoid::Document
   include Mongoid::TagsArentHard
 
+  field :label
+
   taggable_with :tags
   taggable_with :colors, separator: ";"
 end
@@ -94,11 +96,33 @@ describe Mongoid::TagsArentHard do
     context 'class scopes' do
 
       before(:each) do
-        @foo1 = Foo.create!(_name => "a#{_separator}b#{_separator}c")
+        @foo1 = Foo.create!(_name => "a#{_separator}b#{_separator}c", :label => 'test')
         @foo2 = Foo.create!(_name => "b#{_separator}c#{_separator}f")
         @foo3 = Foo.create!(_name => "d#{_separator}e#{_separator}f")
       end
-      
+
+      describe "all_#{_name}" do
+        it "returns all unique tag names as an array" do
+          results = Foo.send("all_#{_name}")
+          results.length.should be(6)
+          results.should include 'a'
+          results.should include 'b'
+          results.should include 'c'
+          results.should include 'd'
+          results.should include 'e'
+          results.should include 'f'
+        end
+
+        it "returns all unique tag names within the given scope" do
+          results = Foo.where(label: 'test').send("all_#{_name}")
+          results.length.should be(3)
+          results.should include 'a'
+          results.should include 'b'
+          results.should include 'c'
+        end
+
+      end
+
       describe "with_#{_name}" do
         
         it "returns all models with a specific #{_name} (splatted)" do
