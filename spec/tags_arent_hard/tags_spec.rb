@@ -105,4 +105,28 @@ describe Mongoid::TagsArentHard::Tags do
 
   end
 
+  describe "!=" do
+  
+    it "works correctly against an array" do
+      expect {
+        if tags != tags.tag_list
+          raise "Hell!"
+        end
+      }.to_not raise_error
+    end
+  
+  end
+
+  describe "==" do
+  
+    it "works correctly against an array" do
+      expect {
+        if tags == tags.tag_list
+          raise "Hell!"
+        end
+      }.to raise_error
+    end
+  
+  end
+
 end

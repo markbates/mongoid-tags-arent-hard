@@ -1,13 +1,13 @@
 module Mongoid
   module TagsArentHard
-    class Tags
+    class Tags < BasicObject
 
       attr_accessor :tag_list
       attr_accessor :options
-      delegate :join, :map, :each, :inspect, :==, :===, :eql?, :__bson_dump__, :delete, :&, :to_ary, :to_json, :as_json, to: :tag_list
+      # delegate :join, :map, :each, :inspect, :==, :===, :eql?, :__bson_dump__, :delete, :&, :to_ary, :to_json, :as_json, to: :tag_list
 
       def initialize(*tag_list, options)
-        self.options = {separator: Mongoid::TagsArentHard.config.separator}.merge(options)
+        self.options = {separator: ::Mongoid::TagsArentHard.config.separator}.merge(options)
         self.tag_list = []
         self.<<(*tag_list)
       end
@@ -37,6 +37,30 @@ module Mongoid
 
       def to_str
         self.to_s
+      end
+
+      def method_missing(sym, *args, &block)
+        self.tag_list.send(sym, *args, &block)
+      end
+
+      def respond_to_missing?(method_name, include_private = false)
+        self.tag_list.respond_to?(method_name)
+      end
+
+      def kind_of?(klass)
+        klass == ::Mongoid::TagsArentHard::Tags || klass == ::Array
+      end
+
+      def is_a?(klass)
+        self.kind_of?(klass)
+      end
+
+      def ==(other)
+        self.tag_list == other
+      end
+
+      def !=(other)
+        !self.==(other)
       end
 
     end
