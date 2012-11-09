@@ -54,6 +54,7 @@ describe Mongoid::TagsArentHard::Tags do
 
     it "does not raise exception on nil tags" do
       lambda {tags << nil}.should_not raise_exception
+      lambda {tags << ["1", "2", nil, "3"]}.should_not raise_exception
     end
 
   end
