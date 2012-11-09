@@ -13,7 +13,7 @@ module Mongoid
       end
 
       def normalize(*tag_list)
-        x = tag_list.flatten.map {|s| s.split(self.options[:separator]).map {|x| x.strip}}.flatten
+        x = tag_list.flatten.compact.map {|s| s.split(self.options[:separator]).map {|x| x.strip}}.flatten
         return x
       end
 
