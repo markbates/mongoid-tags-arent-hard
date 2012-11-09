@@ -52,6 +52,10 @@ describe Mongoid::TagsArentHard::Tags do
       tags.should eql(["foo", "bar", "baz"])
     end
 
+    it "does not raise exception on nil tags" do
+      lambda {tags << nil}.should_not raise_exception
+    end
+
   end
 
   describe '+' do
