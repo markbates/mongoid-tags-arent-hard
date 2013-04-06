@@ -78,6 +78,14 @@ Foo.with_all_colors("a")
 Foo.with_all_colors(["a", "b"])
 Foo.with_all_colors("a, b")
 
+# Find objects without any of the values:
+Foo.without_any_tags("a")
+Foo.without_any_tags(["a", "b"])
+Foo.without_any_tags("a, b")
+Foo.without_any_colors("a")
+Foo.without_any_colors(["a", "b"])
+Foo.without_any_colors("a, b")
+
 # Retrieve a distinct array of all tags
 Foo.all_tags
 Foo.where(name: 'test').all_tags

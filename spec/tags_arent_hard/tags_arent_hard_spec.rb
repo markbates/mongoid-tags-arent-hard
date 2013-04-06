@@ -259,6 +259,91 @@ describe Mongoid::TagsArentHard do
 
       end
 
+      describe "without_any_#{_name}" do
+
+        it "returns all models without any #{_name} (splatted)" do
+          results = Foo.send("without_any_#{_name}", "a")
+          results.should_not have(1).foo
+          results.should_not include(@foo1)
+
+          results = Foo.send("without_any_#{_name}", "b")
+          results.should_not have(2).foos
+          results.should_not include(@foo1)
+          results.should_not include(@foo2)
+
+          results = Foo.send("without_any_#{_name}", "a", "e")
+          results.should_not have(2).foos
+          results.should_not include(@foo1)
+          results.should_not include(@foo3)
+
+          results = Foo.send("without_any_#{_name}", 'a', 'z')
+          results.should have(2).foos
+          results.should include(@foo2)
+          results.should include(@foo3)
+
+          results = Foo.send("without_any_#{_name}", 'z')
+          results.should have(3).foos
+          results.should include(@foo1)
+          results.should include(@foo2)
+          results.should include(@foo3)
+        end
+
+        it "returns all models without any #{_name} (arrayed)" do
+          results = Foo.send("without_any_#{_name}", ["a"])
+          results.should_not have(1).foo
+          results.should_not include(@foo1)
+
+          results = Foo.send("without_any_#{_name}", ["b"])
+          results.should_not have(2).foos
+          results.should_not include(@foo1)
+          results.should_not include(@foo2)
+
+          results = Foo.send("without_any_#{_name}", ["a", "e"])
+          results.should_not have(2).foos
+          results.should_not include(@foo1)
+          results.should_not include(@foo3)
+
+          results = Foo.send("without_any_#{_name}", ['a', 'z'])
+          results.should have(2).foos
+          results.should include(@foo2)
+          results.should include(@foo3)
+
+          results = Foo.send("without_any_#{_name}", ['z'])
+          results.should have(3).foos
+          results.should include(@foo1)
+          results.should include(@foo2)
+          results.should include(@foo3)
+        end
+
+        it "returns all models without any #{_name} (string)" do
+          results = Foo.send("without_any_#{_name}", "a")
+          results.should_not have(1).foo
+          results.should_not include(@foo1)
+
+          results = Foo.send("without_any_#{_name}", "b")
+          results.should_not have(2).foos
+          results.should_not include(@foo1)
+          results.should_not include(@foo2)
+
+          results = Foo.send("without_any_#{_name}", "a,e")
+          results.should_not have(2).foos
+          results.should_not include(@foo1)
+          results.should_not include(@foo3)
+
+          results = Foo.send("without_any_#{_name}", 'a,z')
+          results.should have(2).foos
+          results.should include(@foo2)
+          results.should include(@foo3)
+
+          results = Foo.send("without_any_#{_name}", 'z')
+          results.should have(3).foos
+          results.should include(@foo1)
+          results.should include(@foo2)
+          results.should include(@foo3)
+        end
+
+      end
+
     end
 
   end
