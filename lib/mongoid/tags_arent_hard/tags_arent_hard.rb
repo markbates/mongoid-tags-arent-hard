@@ -45,6 +45,10 @@ module Mongoid
         self.class.send(:define_method, "with_all_#{name}") do |*val|
           all_in(name => Mongoid::TagsArentHard::Tags.new(*val, {}).tag_list)
         end
+
+        self.class.send(:define_method, "without_any_#{name}") do |*val|
+          not_in(name => Mongoid::TagsArentHard::Tags.new(*val, {}).tag_list)
+        end
       end
 
     end
