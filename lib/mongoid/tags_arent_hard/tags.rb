@@ -1,6 +1,7 @@
 module Mongoid
   module TagsArentHard
     class Tags < BasicObject
+      extend ::Origin::Extensions::Array::ClassMethods
 
       attr_accessor :tag_list
       attr_accessor :options
@@ -61,6 +62,14 @@ module Mongoid
 
       def !=(other)
         !self.==(other)
+      end
+
+      def self.mongoize(object)
+        evolve(object)
+      end
+
+      def self.demongoize(object)
+        object
       end
 
     end
