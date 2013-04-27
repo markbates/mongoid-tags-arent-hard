@@ -9,7 +9,7 @@ module Mongoid
       
       def taggable_with(name, options = {})
         options = {separator: Mongoid::TagsArentHard.config.separator, _name: name}.merge(options)
-        self.field(name, type: Array, default: [])
+        self.field(name, type: Mongoid::TagsArentHard::Tags, default: Mongoid::TagsArentHard::Tags.new([], options))
         self.class_eval do
           define_method(name) do
             val = super()
