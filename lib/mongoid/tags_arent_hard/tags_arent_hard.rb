@@ -1,12 +1,12 @@
 module Mongoid
   module TagsArentHard
-    
+
     def self.included(klass)
       klass.extend(ClassMethods)
     end
 
     module ClassMethods
-      
+
       def taggable_with(name, options = {})
         options = {separator: Mongoid::TagsArentHard.config.separator, _name: name}.merge(options)
         self.field(name, type: Mongoid::TagsArentHard::Tags, default: Mongoid::TagsArentHard::Tags.new([], options))
@@ -34,7 +34,7 @@ module Mongoid
         end
 
         self.class.send(:define_method, "all_#{name}") do
-          queryable.distinct(name.to_s)
+          all.distinct(name.to_s)
         end
 
 
