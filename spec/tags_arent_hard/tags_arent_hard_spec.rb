@@ -6,12 +6,15 @@ class Foo
 
   field :label
 
+  field :account, default: 'a'
+  default_scope ->{ where(account: 'a') }
+
   taggable_with :tags
   taggable_with :colors, separator: ";"
 end
 
 describe Mongoid::TagsArentHard do
-  
+
   let(:foo) { Foo.new }
 
   {tags: ",", colors: ";"}.each do |_name, _separator|
@@ -32,11 +35,11 @@ describe Mongoid::TagsArentHard do
         foo.send("#{_name}=", ["foo", "bar"])
         foo.send(_name).should eql(["foo","bar"])
       end
-      
+
     end
 
     describe '#save' do
-      
+
       it "saves the #{_name} correctly" do
         foo.send("#{_name}=", "foo#{_separator}bar")
         foo.save!
@@ -47,7 +50,7 @@ describe Mongoid::TagsArentHard do
     end
 
     describe '+=' do
-      
+
       it "adds and replaces using a string" do
         foo.send("#{_name}=", ["foo", "bar"])
         foo.send(_name).should eql(["foo","bar"])
@@ -81,7 +84,7 @@ describe Mongoid::TagsArentHard do
     end
 
     describe 'changes' do
-      
+
       it "tracks changes correctly" do
         foo.save!
         foo.reload
@@ -91,6 +94,23 @@ describe Mongoid::TagsArentHard do
         changes[_name.to_s].should eql([[], ["foo", "bar"]])
       end
 
+    end
+
+    context "default scope" do
+      before(:each) do
+        @foo1 = Foo.create!(_name => "a#{_separator}b#{_separator}c", :account => 'b')
+        @foo2 = Foo.create!(_name => "b#{_separator}c#{_separator}f", :account => 'a')
+      end
+
+      describe "all_#{_name}" do
+        it "returns tags per account scope" do
+          results = Foo.send("all_#{_name}")
+          results.length.should be(3)
+          results.should include 'b'
+          results.should include 'c'
+          results.should include 'f'
+        end
+      end
     end
 
     context 'class scopes' do
@@ -124,7 +144,7 @@ describe Mongoid::TagsArentHard do
       end
 
       describe "with_#{_name}" do
-        
+
         it "returns all models with a specific #{_name} (splatted)" do
           results = Foo.send("with_#{_name}", "a")
           results.should have(1).foo
@@ -150,7 +170,7 @@ describe Mongoid::TagsArentHard do
       end
 
       describe "with_any_#{_name}" do
-        
+
         it "returns all models with any #{_name} (splatted)" do
           results = Foo.send("with_any_#{_name}", "a")
           results.should have(1).foo
@@ -202,7 +222,7 @@ describe Mongoid::TagsArentHard do
       end
 
       describe "with_all_#{_name}" do
-        
+
         it "returns all models with all #{_name} (splatted)" do
           results = Foo.send("with_all_#{_name}", "a")
           results.should have(1).foo
