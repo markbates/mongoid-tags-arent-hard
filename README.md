@@ -105,7 +105,8 @@ Again, notice that you can use either a string, an array, or a splatted list as 
 ## Contributers
 
 * Mark Bates
-* Carsten Block
+* Dave South
 * Luke Bergen
-* Laurent Arnoud
+* Carsten Block
 * thomas morgan
+* Laurent Arnoud
