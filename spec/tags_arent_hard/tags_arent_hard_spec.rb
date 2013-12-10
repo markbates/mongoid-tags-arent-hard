@@ -36,6 +36,14 @@ describe Mongoid::TagsArentHard do
         foo.send(_name).should eql(["foo","bar"])
       end
 
+      it "does not raise an error when reading frozen objects" do
+        expect {
+          foo.send("#{_name}=", ["foo", "bar"])
+          foo.freeze
+          foo.send(_name)
+        }.to_not raise_error
+      end
+
     end
 
     describe '#save' do

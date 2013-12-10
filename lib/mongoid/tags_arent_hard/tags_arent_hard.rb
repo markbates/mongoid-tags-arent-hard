@@ -16,7 +16,7 @@ module Mongoid
             unless val.is_a?(Mongoid::TagsArentHard::Tags)
               options.merge!(owner: self)
               val = Mongoid::TagsArentHard::Tags.new(val, options)
-              self.send("#{name}=", val)
+              self.send("#{name}=", val) unless self.frozen?
             end
             return val
           end
