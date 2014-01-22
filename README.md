@@ -1,6 +1,6 @@
 # Mongoid::TagsArentHard
 
-A tagging gem for Mongoid 3 that doesn't actually suck.
+A tagging gem for Mongoid 3+ that doesn't actually suck.
 
 For some reason all of the tagging gems for Mongoid suck. Not sure why, it's really not that hard a problem to solve. One of the biggest complaints I have is that you can't have a model that has two types of "tags". The other problem I have with the other gems is that I want to be able to set my tags equal to a string and have it become an Array, and vice versa. This gem solves both of those problems.
 

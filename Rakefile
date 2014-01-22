@@ -1,9 +1,6 @@
-require 'bundler'  
-Bundler::GemHelper.install_tasks
+require "bundler/gem_tasks"
+require "rspec/core/rake_task"
 
-desc "Run tests"
-task :default => [:ruby]
+RSpec::Core::RakeTask.new(:spec)
 
-task :ruby do
-  system "bundle exec rspec"
-end
+task :default => [ :spec ]

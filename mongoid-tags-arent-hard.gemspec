@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Mongoid::Tags::Arent::Hard::VERSION
   gem.authors       = ["Mark Bates"]
   gem.email         = ["mark@markbates.com"]
-  gem.description   = %q{A tagging gem for Mongoid 3 that doesn't actually suck.}
-  gem.summary       = %q{A tagging gem for Mongoid 3 that doesn't actually suck.}
+  gem.description   = %q{A tagging gem for Mongoid 3+ that doesn't actually suck.}
+  gem.summary       = %q{A tagging gem for Mongoid 3+ that doesn't actually suck.}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
@@ -17,5 +17,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency("mongoid", ">=3.0.0")
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "database_cleaner"
+  gem.add_runtime_dependency "mongoid"
 end
