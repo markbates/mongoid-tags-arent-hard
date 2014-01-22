@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Mongoid::TagsArentHard::Tags do
-  
+
   let(:tags) { Mongoid::TagsArentHard::Tags.new(%w{foo bar baz}, {}) }
 
   after(:each) do
@@ -9,7 +9,7 @@ describe Mongoid::TagsArentHard::Tags do
   end
 
   describe 'initialize' do
-    
+
     it "takes an array of tags" do
       tags = Mongoid::TagsArentHard::Tags.new(["foo", "bar"], {})
       tags.should eql(["foo", "bar"])
@@ -33,7 +33,7 @@ describe Mongoid::TagsArentHard::Tags do
   end
 
   describe '<<' do
-    
+
     it "takes a string" do
       tags << "fubar"
       tags.should eql(["foo", "bar", "baz", "fubar"])
@@ -60,12 +60,11 @@ describe Mongoid::TagsArentHard::Tags do
   end
 
   describe '+' do
-    
+
     it "adds the string to the list" do
       tags.should eql(["foo", "bar", "baz"])
       ntags = tags + "a,b"
       ntags.should eql(["foo", "bar", "baz", "a", "b"])
-      puts "ntags.class.name: #{ntags.class.name}"
       ntags.should be_kind_of(Mongoid::TagsArentHard::Tags)
     end
 
@@ -86,7 +85,7 @@ describe Mongoid::TagsArentHard::Tags do
   end
 
   describe 'to_s, to_str' do
-    
+
     it "returns a comma separated list of tags" do
       tags.to_s.should eql("foo,bar,baz")
       tags.to_str.should eql("foo,bar,baz")
@@ -95,7 +94,7 @@ describe Mongoid::TagsArentHard::Tags do
   end
 
   describe 'to_json' do
-    
+
     it "returns an Array style json" do
       tags.to_json.should eql("[\"foo\",\"bar\",\"baz\"]")
     end
@@ -103,7 +102,7 @@ describe Mongoid::TagsArentHard::Tags do
   end
 
   describe 'as_json' do
-    
+
     it "returns the underlying array" do
       tags.as_json.should eql(["foo", "bar", "baz"])
     end
@@ -111,7 +110,7 @@ describe Mongoid::TagsArentHard::Tags do
   end
 
   describe "!=" do
-  
+
     it "works correctly against an array" do
       expect {
         if tags != tags.tag_list
@@ -119,11 +118,11 @@ describe Mongoid::TagsArentHard::Tags do
         end
       }.to_not raise_error
     end
-  
+
   end
 
   describe "==" do
-  
+
     it "works correctly against an array" do
       expect {
         if tags == tags.tag_list
@@ -131,7 +130,7 @@ describe Mongoid::TagsArentHard::Tags do
         end
       }.to raise_error
     end
-  
+
   end
 
 end
